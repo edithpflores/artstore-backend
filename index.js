@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 const appInsights = require('applicationinsights');
 
-appInsights.setup('InstrumentationKey=64e9ec88-0a66-4fd0-b7e0-c8abbf370da3;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/;ApplicationId=56b5de4c-5505-4ccd-9543-a4dc4f7b4879')
+appInsights.setup(process.env.APPINSIGHTS_CONNECTION_STRING)
     .setAutoCollectRequests(true)
     .setAutoCollectPerformance(true)
     .setAutoCollectExceptions(true)
