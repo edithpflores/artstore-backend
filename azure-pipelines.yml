@@ -4,19 +4,51 @@ trigger:
 pool:
   name: Default
 
-steps:
+stages:
 
-- task: UseNode@1
-  inputs:
-    version: '18.x'
+- stage: BuildAndTest
+  displayName: Build and Test
 
-- script: npm install
-  displayName: Install dependencies
+  jobs:
+  - job: Build
+    steps:
 
-- script: npm test
-  displayName: Run unit tests
+    - task: UseNode@1
+      inputs:
+        version: '18.x'
 
-- script: |
-    echo Pipeline running successfully
-    node -v
-  displayName: Verify Node
+    - script: npm install
+      displayName: Install dependencies
+
+    - script: npm test
+      displayName: Run unit tests
+
+- stage: DeployDev
+  displayName: Deploy to Dev
+  dependsOn: BuildAndTest
+
+  jobs:
+  - deployment: DeployDevJob
+    environment: Dev
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo Deploying to DEV environment
+            displayName: Deploy Dev
+
+- stage: DeployProd
+  displayName: Deploy to Prod
+  dependsOn: DeployDev
+
+  jobs:
+  - deployment: DeployProdJob
+    environment: Prod
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo Deploying to PROD environment
+            displayName: Deploy Prod
