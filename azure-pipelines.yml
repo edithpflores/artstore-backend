@@ -13,6 +13,9 @@ steps:
 - script: npm install
   displayName: Install dependencies
 
+- script: npm test
+  displayName: Run unit tests
+
 - script: |
     echo Pipeline running successfully
     node -v
