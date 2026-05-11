@@ -8,7 +8,7 @@ app.use(cors());
 
 // Endpoint simple
 app.get('/', (req, res) => {
-    res.send('ArtStore API is running');
+    res.send('ArtStore API is running - DevOps Pipeline Active');
 });
 
 // Endpoint productos
