@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // Endpoint simple
 app.get('/', (req, res) => {
@@ -18,6 +21,11 @@ app.get('/products', (req, res) => {
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Only start server if file is run directly
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;
